@@ -36,8 +36,8 @@ class P108:
         #print(sr_one.head());
         # head 나 tail을 이용해서 데이터의 앞과 뒤를 통해서 내가 얻는 데이터의
         # 형태등을 파악할수 있다.
-        #plt.plot(sr_one.index,sr_one.values);
-        #plt.show();
+        plt.plot(sr_one.index,sr_one.values);
+        plt.show();
 
 
 
