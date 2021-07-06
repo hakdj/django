@@ -1,13 +1,19 @@
+import json
+
 import matplotlib.pyplot as plt
 import pandas as pd;
 import seaborn as sns;
 import folium as fol;
 from config.settings import DATA_DIRS, STATICFILES_DIRS, TEMPLATES;
 
-df =pd.read_excel(DATA_DIRS[0]+'//data1.xlsx',engine='openpyxl',header=0);
-df2 =pd.read_excel(DATA_DIRS[0]+'//data2.xlsx',engine='openpyxl',header=0);
-df3 =pd.read_csv(DATA_DIRS[0]+'//auto-mpg.csv',header=0);
+df = pd.read_excel(DATA_DIRS[0]+'//data1.xlsx',engine='openpyxl',header=0);
+df2 = pd.read_excel(DATA_DIRS[0]+'//data2.xlsx',engine='openpyxl',header=0);
+df3 = pd.read_csv(DATA_DIRS[0]+'//auto-mpg.csv',header=0);
 df3.columns= ['mpg','cyl','dis','hor','wei','acc','year','origin','name'];
+df4 = pd.read_excel(DATA_DIRS[0]+'//data3.xlsx',engine='openpyxl');
+df5 = pd.read_excel(DATA_DIRS[0]+'//data4.xlsx',engine='openpyxl');
+
+
 
 tt = sns.load_dataset('titanic');
 
@@ -76,13 +82,38 @@ class P109:
         print(tt2)
 
     def mat07(self):
-        seoul_map= fol.Map();
+        seoul_map= fol.Map(location=[37.55,126.98],zoom_start=12);
         print(TEMPLATES[0]['DIRS'])
         seoul_map.save(TEMPLATES[0]['DIRS'][0]+'/seoul_map.html')
 
+    def mat08(self):
+        seoul_map= fol.Map(location=[37.55,126.98],zoom_start=12);
+        print(df4);
+        df4.columns=['name','lat','lng']
+        df4.set_index('name',inplace=True); #인덱스값 변경 inplace로
+        for name,lat,lng in zip(df4.index,df4['lat'],df4['lng']):
+            #print(name,lat,lng);
+            fol.Marker([lat,lng],popup=name).add_to(seoul_map);
+        seoul_map.save(TEMPLATES[0]['DIRS'][0]+'/seoul_map.html');
+    def mat09(self):
+        df5.set_index('구분',inplace=True)
+        #print(df5);
+        geo_path = DATA_DIRS[0]+'/data4.json';
+        geo_data = json.load(open(geo_path),encoding='utf-8');
+        print(geo_data);
+        map=fol.Map(location=[37.5502,126.982],zoom_start=9)
+        fol.Choropleth(
+            geo_data=geo_data,
+            data=df5[2007],
+            columns=[df5.index,df5[2007]],
+            fill_color='YlOrRd',fill_opacity=0.7,line_opacity=0.3,
+            threshold_scale=[10000,100000,300000,500000,700000],
+            key_on='feature.properties.name'
+        ).add_to(map);
+        map.save(TEMPLATES[0]['DIRS'][0]+'\\gyonggi.html')
 
 if __name__ == '__main__':
-    P109().mat07();
+    P109().mat09();
 
 
 
