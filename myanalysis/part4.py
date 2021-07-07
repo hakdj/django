@@ -133,8 +133,8 @@ class P109:
         df_seoul.set_index('전입지',inplace=True);
         col_years=list(map(str,range(1970,2010)));
         df_4=df_seoul.loc[['충청남도','경상북도','강원도','전라남도'],col_years];
-        df_4=df_4.transpose();
 
+        df_4=df_4.transpose();
         plt.style.use('ggplot');
         df_4.index=df_4.index.map(int);
         df_4.plot(kind='area',stacked=False,alpha=0.2,figsize=(10,5));
