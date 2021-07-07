@@ -36,6 +36,11 @@ def maps(request):
 
 def chart1(request):
     return render(request, 'chart1.html');
+def chart1s(request):
+    location = request.GET['location'];
+    P109().mat11(location);
+    return render(request, 'chart1result.html');
+
 def chart2(request):
     return render(request, 'chart2.html');
 

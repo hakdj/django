@@ -124,8 +124,28 @@ class P109:
                     data=tt,ax=ax3);
         plt.savefig(STATICFILES_DIRS[0]+'/tt.jpg');
 
+    def mat11(self,location):
+        df2 = df.fillna(method='ffill');
+        mask = (df2['전출지별'] == location) & (df2['전입지별'] != location);
+        df_seoul = df2[mask];
+        df_seoul = df_seoul.drop('전출지별', axis=1);
+        df_seoul.rename({'전입지별': '전입지'}, axis=1, inplace=True);
+        df_seoul.set_index('전입지',inplace=True);
+        col_years=list(map(str,range(1970,2010)));
+        df_4=df_seoul.loc[['충청남도','경상북도','강원도','전라남도'],col_years];
+        df_4=df_4.transpose();
+
+        plt.style.use('ggplot');
+        df_4.index=df_4.index.map(int);
+        df_4.plot(kind='area',stacked=False,alpha=0.2,figsize=(10,5));
+        plt.title('서울-> 타시도 인구 이동',size=30);
+        plt.ylabel('이동 인구 수',size=20);
+        plt.xlabel('기간',size=20);
+        plt.legend(loc='best',fontsize=15);
+        plt.savefig(STATICFILES_DIRS[0]+'/kk.jpg');
+
 if __name__ == '__main__':
-    P109().mat10();
+    P109().mat11();
 
 # 장고에서 500은 서버에러
 

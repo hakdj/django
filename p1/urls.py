@@ -28,6 +28,8 @@ urlpatterns = [
     path('maps', views.maps, name='maps'),
 
     path('chart1', views.chart1, name='chart1'),
+    path('chart1s', views.chart1s, name='chart1s'),
+
     path('chart2', views.chart2, name='chart2'),
 
     path('chart3', views.chart3, name='chart3'),
