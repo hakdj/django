@@ -95,7 +95,7 @@ class P109:
             #print(name,lat,lng);
             fol.Marker([lat,lng],popup=name).add_to(seoul_map);
         seoul_map.save(TEMPLATES[0]['DIRS'][0]+'/seoul_map.html');
-    def mat09(self):
+    def mat09(self,year):
         df5.set_index('구분',inplace=True)
         #print(df5);
         geo_path = DATA_DIRS[0]+'/data4.json';
@@ -104,17 +104,30 @@ class P109:
         map=fol.Map(location=[37.5502,126.982],zoom_start=9)
         fol.Choropleth(
             geo_data=geo_data,
-            data=df5[2007],
-            columns=[df5.index,df5[2007]],
+            data=df5[year],
+            columns=[df5.index,df5[year]],
             fill_color='YlOrRd',fill_opacity=0.7,line_opacity=0.3,
             threshold_scale=[10000,100000,300000,500000,700000],
             key_on='feature.properties.name'
         ).add_to(map);
-        map.save(TEMPLATES[0]['DIRS'][0]+'\\gyonggi.html')
+        map.save(TEMPLATES[0]['DIRS'][0]+'\\chart4result.html')
+    def mat10(self):
+        tt=sns.load_dataset('titanic');
+        sns.set_style('whitegrid');
+        fig=plt.figure(figsize=(15,5));
+        ax1=fig.add_subplot(1,3,1);
+        ax2=fig.add_subplot(1,3,2);
+        ax3=fig.add_subplot(1,3,3);
+        sns.barplot(x='sex',y='survived',data=tt,ax=ax1);
+        sns.barplot(x='sex',y='survived',hue='class',data=tt,ax=ax2);
+        sns.barplot(x='sex',y='survived',hue='class',dodge=False,
+                    data=tt,ax=ax3);
+        plt.savefig(STATICFILES_DIRS[0]+'/tt.jpg');
 
 if __name__ == '__main__':
-    P109().mat09();
+    P109().mat10();
 
+# 장고에서 500은 서버에러
 
 
 
