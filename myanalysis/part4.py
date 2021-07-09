@@ -50,7 +50,7 @@ class P109:
         # df3t.plot(kind='barh',stacked=False,alpha=0.2,figsize=(10,5));
         # plt.show();
 
-    def mat03(self):
+    def mat03(self,sy,ey):
         print(df2);
         df3=df2.loc[5:9];
         df3.drop('전력량 (억㎾h)',axis=1,inplace=True);
@@ -64,7 +64,19 @@ class P109:
         print(df3t);
         df3t['1년전'] = df3t['총발전량'].shift(1);
         df3t['증감률'] = ((df3t['총발전량']/df3t['1년전'])-1) *100;
+        df3t['증감률'].fillna(0,inplace=True);
+
+        df3t['year']=df3t.index;
+        df3t['new_year']=pd.to_datatime(df3t.index);
+        df3t['new_year']=df3t['new_year'].dt.to_period(freq='A');
+        df3t.set_index(df3t['new_year'],inplace=True);
+
+        df3t=df3t[sy:ey]
         print(df3t);
+
+        year=df3t['new_year'].tolist;
+        w=df3t['수력'].tolist();
+        f=df3t['화력'].tolist();
 
     def mat04(self):
         # 국가별 차량의 개수를 구하시오.
@@ -145,7 +157,7 @@ class P109:
         plt.savefig(STATICFILES_DIRS[0]+'/kk.jpg');
 
 if __name__ == '__main__':
-    P109().mat11();
+    P109().mat03();
 
 # 장고에서 500은 서버에러
 

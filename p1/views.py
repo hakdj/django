@@ -44,6 +44,15 @@ def chart1s(request):
 def chart2(request):
     return render(request, 'chart2.html');
 
+def chart2s(request):
+    sy=request.GET['sy'];
+    ey=request.GET['ey'];
+    ns=request.GET['ns'];
+    print(sy,ey,ns);
+    data= P109().mat03(sy,ey);
+    return HttpResponse(json.dumps(data), content_type='application/json');
+
+
 def chart3(request):
     P109().mat10();
     return render(request, 'chart3.html');

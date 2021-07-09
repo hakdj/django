@@ -68,8 +68,9 @@ class Part5:
         print(df3['origin'].dtypes);
         df3['origin']=df3['origin'].astype('category');
         print(df3['origin'].dtypes);
-    def p192(self):
+    # def p192(self):
+    # def p194(self):
 
 
 if __name__ == '__main__':
-    Part5().p192();
+    Part5().p194();
