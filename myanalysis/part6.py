@@ -114,5 +114,7 @@ class Part6:
         tt4=tt['pclass'].isin([2,3]);
         print(tt4);
 
+
+
 if __name__ == '__main__':
     Part6().p234();
